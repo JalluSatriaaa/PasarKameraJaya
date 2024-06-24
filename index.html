@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shop Pasar Kamera Jaya</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .section {
+            display: none;
+            padding: 2rem;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .product-category-list {
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product-category {
+            cursor: pointer;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: #007bff;
+            text-decoration: none;
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: calc(30% - 2rem);
+        }
+
+        .product-category img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product-list {
+            padding: 2rem;
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        .product-items {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+        }
+
+        .product-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 1rem;
+            padding: 1rem;
+            width: 300px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .product-item h2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .product-item p {
+            color: #5d5b5b;
+        }
+
+        .product-item .price {
+            font-size: 1.2rem;
+            color: #414040;
+            font-weight: bold;
+        }
+
+        .product-item .buy-button {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        #cart {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            width: calc(33% - 2rem);
+            margin: 2rem auto;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .remove-button {
+            background-color: #dc3545;
+            color: white;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .checkout-button {
+            background-color: #0070ba;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: block;
+            margin: 1rem auto;
+            width: fit-content; /* Tambahkan properti ini untuk menyesuaikan lebar tombol dengan kontennya */
+            text-align: center; /* Tambahkan properti ini agar konten di dalam tombol berada di tengah */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkout-button img {
+            width: 30px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        /* Notification Styles */
+        #notification {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+
+        .buttonback {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .box {
+            width: 300px;
+            height: 300px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+        }
+        .box img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+        }
+
+        #Warnaproduk {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+
+        }
+        @media (max-width: 768px) {
+            .product-category {
+                width: calc(45% - 2rem);
+            }
+
+            .product-list, .product-items {
+                flex-direction: column;
+            }
+
+            .product-item {
+                width: calc(100% - 2rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-category {
+                width: calc(100% - 2rem);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Toko Pasar Kamera Jaya</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" onclick="showSection('products')">Produk</a></li>
+                <li><a href="#" onclick="showSection('contact')">Kontak</a></li>
+                <li><a href="#" onclick="showSection('cart')">Keranjang</a></li>
+                <li><a href="#" onclick="showSection('about')">Tentang</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="section active">
+            <h2>Welcome to Pasar Kamera Jaya</h2>
+            <p>Your one-stop shop for all your camera needs! Apa yang bisa kami bantu? untuk melihat barang apa yang dijual ada di produk dan jika ingin berkerja sama silahkan kirimkan email yang tertera pada Bar Kontak.</p>
+            <br>
+            <p>Jika ingin melihat produk yang di jual tekan pada bar produk, Jika ingin melihat kontak dan instagram toko kami, silahkan tekan pada bar Kontak, dan jika sudah memilih produk dan akan melakukan chekout tekan pada bar keranjang.</p>
+            <br>
+            <p>HAPPY SHOPPING!</p>
+            
+
+        </section>
+
+        <section id="products" class="section">
+            <div class="product-category-list">
+                <div class="product-category" onclick="showProducts('canon')">
+                    <img src="canon.jpeg" alt="Canon">
+                    <div id="Warnaproduk">Canon</div>
+                </div>
+                <div class="product-category" onclick="showProducts('sony')">
+                    <img src="sony.jpeg" alt="Sony">
+                    <div id="Warnaproduk">Sony</div>
+                </div>
+                <div class="product-category" onclick="showProducts('accessories')">
+                    <img src="aksesoris.jpeg" alt="Accessories">
+                    <div id="Warnaproduk">Aksesoris</div>
+                </div>
+            </div>
+            <div id="product-list" class="product-list product-items"></div>
+        </section>
+
+        <section id="canon" class="section">
+            <h2>Produk Canon</h2>
+            <button class="buttonback" onclick="backToCategories()">Kembali Ke Merk Produk</button>
+            <div id="canon-product-list" class="product-list product-items"></div>
+        </section>
+
+        <section id="sony" class="section">
+            <h2>Produk Sony</h2>
+            <button class="buttonback" onclick="backToCategories()">Kembali Ke Merk Produk</button>
+            <div id="sony-product-list" class="product-list product-items"></div>
+        </section>
+
+        <section id="accessories" class="section">
+            <h2>Produk Aksesoris</h2>
+            <button class="buttonback" onclick="backToCategories()">Kembali Ke Merk Produk</button>
+            <div id="accessories-product-list" class="product-list product-items"></div>
+        </section>
+
+        <section id="cart" class="section">
+            <h2>Keranjang Belanja</h2>
+            <div id="cart-items"></div>
+            <p>Total Items: <span id="total-items">0</span></p>
+            <p>Total Price: RP <span id="total-price">0</span></p>
+            <button class="checkout-button" onclick="proceedToCheckout()">
+                <img src="qris.jpeg" alt="QRIS Logo">
+                Checkout with QRIS
+            </button>
+            <div class="overlay" id="overlay" onclick="hideBox()">
+                <div class="box" onclick="event.stopPropagation()">
+                    <img src="qrcode1.jpg" alt="QR Code">
+                </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Kontak Kami</h2>
+            <p>Jika mempunyai pertanyaan, bisa dikontak pada :  </p>
+            <br>
+            <p>Email : contact@PasarKamerajaya.com</p>
+            <br>
+            <p> Instagram : @PasarKameraJaya.</p>
+        </section>
+
+        <section id="about" class="section">
+            <h2>Tentang Kami</h2>
+            <p>Toko Kamera Jaya Baru adalah toko penjualan kamera dan berbagai alat pendukung lainnya, dengan berbagai alat dan aksesoris dengan harga yang terjangkau.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Pasar Kamera Jaya. All rights reserved.</p>
+    </footer>
+
+    <!-- Notification Element -->
+    <div id="notification"></div>
+
+    <script>
+        const products = {
+            canon: [
+                {
+                    id: "product1",
+                    name: "Kamera Canon EOS 200D II (EF-S 18-55mm f/4-5.6 IS STM)",
+                    image: "200dii.jpeg",
+                    description: "EOS 200D II adalah DSLR Canon paling ringan yang dilengkapi layar LCD Touch Screen Vari-angle. Beratnya tidak melebihi berat dari sebotol air*, kamera ini pas dibawa menggunakan tas dan siap menemanimu memotret setiap hari. Bodi kamera yang mungil ini dilengkapi dengan sensor CMOS APS-C 24,1 megapiksel, prosesor DIGIC 8 dan segudang fitur yang akan memudahkanmu untuk memotret kehidupan yang kamu temui setiap hari. ",
+                    price: 17500000,
+                },
+                {
+                    id: "product2",
+                    name: "Kamera Canon PowerShot G7 X Mark III",
+                    image: "powershot.jpeg",
+                    description: "Kamera penerus PowerShot G7 X Mark II yang populer, Menjadi kamera yang sempurna bagi mereka yang ingin melakukan lebih daripada sekadar mengambil foto biasa. DIGIC 8 dan Sensor CMOS 1 inci memberikan kualitas gambar yang luar biasa. Dilengkapi dengan bukaan lensa f/1.8-2.8, PowerShot G7 X Mark III memiliki performa yang luar biasa baik dalam kondisi rendah cahaya. ",
+                    price: 15190000,
+                },
+                {
+                    id: "product3",
+                    name: "Kamera Canon EOS R100 (RF-S18-45mm f/4.5-6.3 IS STM)",
+                    image: "cr100.jpeg",
+                    description: "Canon EOS R100 adalah kamera paling ringkas dan ringan* dalam sistem R. Dengan burst rate hingga 6,5 bingkai per detik (frames per second) dan resolusi 24,1 megapiksel, Anda dapat mengabadikan gambar yang serba-indah. Kemampuan EOS R100 yang ringan untuk merekam video dalam 4K 25p atau HD 120p, lebih meleluasakan untuk mengekspresikan kreativitas. .",
+                    price: 12020000,
+                }
+            ],
+            sony: [
+                {
+                    id: "product4",
+                    name: "Kamera Sony Alpha 6400 + lensa kit 16 - 50 mm",
+                    image: "sony64.jpeg",
+                    description: "Meskipun ukurannya ringkas dan ringan, α6400 memberikan performa cepat dan beragam fitur yang Anda harapkan dari model full-frame. Baik mengambil gambar diam atau film, komposisi kreatif atau foto selfie harian, Anda akan menikmati gambar indah yang ingin Anda bagikan di mana saja..",
+                    price: 13400000,
+                },
+                {
+                    id: "product5",
+                    name: "Kamera Sony Alpha 7C Mark II + 28 - 50mm lens ",
+                    image: "7cmark2.jpeg",
+                    description: "α7C II adalah kamera full-frame ringkas dan ringan yang telah dinanti para kreator profesional. Dikemas dengan teknologi pengambilan gambar diam dan film mutakhir, kamera ini adalah alat esensial untuk mengabadikan dunia sesuai keinginan Anda.",
+                    price: 31620000,
+                },
+                {
+                    id: "product6",
+                    name: "Sony Compact Camera RX100 VII",
+                    image: "rx100.jpeg",
+                    description: "Di dalam bodi ringkasnya, RX100 VII dilengkapi semua yang diperlukan untuk menghasilkan gambar menawan. Lensa zoom 24-200mm dilengkapi oleh AF super cepat 0,02-dtk., Pelacakan Real Time baru, dan Eye AF Real Time, plus peningkatan stabilisasi gambar dan jack mikrofon eksternal untuk pengambilan gambar film kualitas tinggi.",
+                    price: 18200000,
+                },
+            ],
+            accessories: [
+                {
+                    id: "product3",
+                    name: "Tripod Takara Eco",
+                    image: "gambar4.jpeg",
+                    description: "Terbuat dengan bahan dari stainless yang kokoh dan head yang bisa diatur sesuai dengan keinginan anda.",
+                    price: 250000,
+                },
+                {
+                    id: "product4",
+                    name: "Kit Pembersih 13in1",
+                    image: "gambar5.jpeg",
+                    description: "Kit pembersih alat kamera dengan 13 alat menjadi 1, menjadikan kit ini sangat rekomendasi untuk para fotografer.",
+                    price: 50000,
+                },
+                {id: "product6",
+                    name: "Tas Kamera",
+                    image: "tas.jpeg",
+                    description: "Untuk menyimpan Kamera dan lensa agar aman dari debu dan cipratan air.",
+                    price: 80000,
+                }
+
+            ]
+        };
+
+        let cart = [];
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(function(section) {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function showProducts(category) {
+            const productList = document.getElementById(`${category}-product-list`);
+            productList.innerHTML = '';
+            products[category].forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.classList.add('product-item');
+                productItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h2>${product.name}</h2>
+                    <p>${product.description}</p>
+                    <span class="price">RP ${product.price.toLocaleString()}</span>
+                    <button class="buy-button" onclick="addToCart('${product.name}', ${product.price})">Beli</button>
+                `;
+                productList.appendChild(productItem);
+            });
+            showSection(category);
+        }
+
+        function backToCategories() {
+            showSection('products');
+        }
+
+        function addToCart(productName, productPrice) {
+            const productIndex = cart.findIndex(item => item.name === productName);
+            if (productIndex !== -1) {
+                cart[productIndex].quantity += 1;
+            } else {
+                cart.push({ name: productName, price: productPrice, quantity: 1 });
+            }
+            updateCart();
+            showNotification(productName);
+        }
+
+        function removeFromCart(productName) {
+            const productIndex = cart.findIndex(item => item.name === productName);
+            if (productIndex !== -1) {
+                cart[productIndex].quantity -= 1;
+                if (cart[productIndex].quantity === 0) {
+                    cart.splice(productIndex, 1);
+                }
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalItemsElement = document.getElementById('total-items');
+            const totalPriceElement = document.getElementById('total-price');
+
+            cartItemsContainer.innerHTML = '';
+            let totalPrice = 0;
+            let totalItems = 0;
+
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+                itemElement.innerHTML = `
+                    ${item.name} - RP ${item.price.toLocaleString()} x ${item.quantity}
+                    <button class="remove-button" onclick="removeFromCart('${item.name}')">Hapus</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                totalPrice += item.price * item.quantity;
+                totalItems += item.quantity;
+            });
+
+            totalItemsElement.textContent = totalItems;
+            totalPriceElement.textContent = totalPrice.toLocaleString();
+        }
+
+        function showNotification(productName) {
+            const notification = document.getElementById('notification');
+            notification.textContent = `${productName} telah masuk ke keranjang belanja.`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function proceedToCheckout() {
+            document.getElementById('overlay').style.display = "flex";
+        }
+        function hideBox(){
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
